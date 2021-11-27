@@ -233,3 +233,35 @@ Sehigga kemudian dapat ditentukan NetworkID, NetMask dan Broadcast Address dari 
 	</tr>
 </table>
 
+## CIDR
+Pertama, bedakan jauhnya subnet yang satu dengan yang lain
+
+![cidr0](https://user-images.githubusercontent.com/45300477/143683656-2bf4d3e8-34b4-4dd5-b066-f4d783aab118.jpg)
+
+Sehingga didapat bahwa A15 adalah subnet terjauh. Sehingga pertama penggabungan adalah subnet A13 dengan A15 (B1).
+Berikutnya yang terjauh adalah subnet berwarna merah yang dapat digabung, yaitu A6 & A11 dan B1 dengan A14. Begitu seterusnya sampai seluruhnya berada dalam satu subnet.
+
+![Pembagian CIDR](https://user-images.githubusercontent.com/45300477/143683763-d5c265d6-9de4-42cd-b537-e3b2566db73e.jpg)
+
+Dapat dilihat bahwa subnet besar memiliki netmask /15, sehingga dalam pohon cidr yang terbesar adalah /15 seperti berikut:
+![jarkom-CIDR](https://user-images.githubusercontent.com/45300477/143683921-35fc31b9-0670-4c68-ae53-90767757a722.png)
+
+## Konfigurasi:
+1. Konfigurasi router
+Setiap router dikonfigurasikan menurut kabel yang terhubung terhadap subnet. Misal Foosha dan Water7 adalah subnet A4. Maka interface 1/0 pada Foosha dan interface 1/0 pada  Water7 harus memiliki IP di antara NID (10.14.0.4) dan Broadcast Address (10.14.0.7) (eksklusif/tidak termasuk). Berikut adalah contoh pada Foosha yang mengarah Water7.
+
+![image](https://user-images.githubusercontent.com/45300477/143684595-cb57681a-24ae-4691-aaf7-3ffd1fea6d59.png)
+
+Sementara pada Water7
+
+![image](https://user-images.githubusercontent.com/45300477/143684727-36aff0c9-0ac0-45b3-a2ca-d9b70450554e.png)
+
+2. Konfigurasi Host
+Atur IP sesuai subnet yang telah ditentukan sebelumnya (di antara NID dan Broadcast Address). Misalnya Blueno (A1):
+
+![image](https://user-images.githubusercontent.com/45300477/143684856-23cf63da-b60a-4987-836c-fe16100bb976.png)
+
+Default gateway adalah IP yang digunakan Foosha pada interface 0/1. IP yang digunakan juga merupakan IP untuk A1. Hal ini berlaku pada semua PC.
+
+## Routing
+Routing adalah dengan mengatur tujuan (NID dan netmasknya) serta next hop untuk mengatur titik yang harus dilalui sebelum paket sampai ke tujuan.
